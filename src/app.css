@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Kolors";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(../static/kolors-regular.otf) format("opentype");
+  }
+
+  *::selection {
+    @apply bg-[#FDF003] text-black;
+  }
+
+  body {
+    @apply font-kolors bg-[#101014];
+  }
+}
