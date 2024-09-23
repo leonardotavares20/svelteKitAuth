@@ -4,18 +4,22 @@
 
 @layer base {
   @font-face {
-    font-family: "Kolors";
+    font-family: 'Kolors';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url(../static/kolors-regular.otf) format("opentype");
+    src: url(/kolors-regular.otf) format('opentype');
   }
 
   *::selection {
     @apply bg-[#FDF003] text-black;
   }
 
+  * {
+    @apply m-0 p-0 box-border;
+  }
+
   body {
-    @apply font-kolors bg-[#101014];
+    @apply font-kolors bg-[#101014] text-[#fff];
   }
 }
