@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../app.css";
+  import '../app.css';
 </script>
 
 <div
@@ -16,8 +16,7 @@
       href="/registration"
       class="h-full flex items-center transition-all justify-center hover:bg-orange-500"
     >
-      <span class="text-gray-200 text-5xl">Registration</span
-      >
+      <span class="text-gray-200 text-5xl">Registration</span>
     </a>
     <a
       class="flex items-center transition-all justify-center hover:bg-orange-500"
