@@ -1,1 +1,1 @@
-# Template for my Apps
+# sveltekit auth
