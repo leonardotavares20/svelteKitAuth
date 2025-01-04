@@ -1,7 +1,7 @@
 import bycrypt from 'bcrypt';
 import { ZodError } from 'zod';
 import { db } from '@/lib/database';
-import type { Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 import { redirect, fail } from '@sveltejs/kit';
 import { registerSchema } from '@/lib/validation_schemas/register';
 
@@ -9,6 +9,12 @@ enum Roles {
   USER = 'USER',
   ADMIN = 'ADMIN',
 }
+
+export const load: PageServerLoad = async ({ locals }) => {
+  if (locals.user) {
+    throw redirect(302, '/');
+  }
+};
 
 export const actions: Actions = {
   register: async ({ request }) => {

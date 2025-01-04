@@ -4,6 +4,13 @@ import { db } from '@/lib/database';
 import type { Actions } from '@sveltejs/kit';
 import { redirect, fail } from '@sveltejs/kit';
 import { loginSchema } from '@/lib/validation_schemas/login';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ locals }) => {
+  if (locals.user) {
+    throw redirect(302, '/');
+  }
+};
 
 export const actions: Actions = {
   login: async ({ request, cookies }) => {

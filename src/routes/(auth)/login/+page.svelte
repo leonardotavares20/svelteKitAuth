@@ -1,12 +1,24 @@
 <script lang="ts">
+  import { applyAction, enhance } from '$app/forms';
+  import { invalidateAll } from '$app/navigation';
   import { page } from '$app/stores';
-  import type { ActionData } from './$types';
 
-  const form = $page.form as ActionData;
+  let form = $page.form;
 </script>
 
 <div class="w-svw h-svh flex items-center justify-center">
-  <form class="w-svw h-svh grid grid-cols-2" action="?/login" method="post">
+  <form
+    class="w-svw h-svh grid grid-cols-2"
+    action="?/login"
+    method="post"
+    use:enhance={() => {
+      return async ({ result }) => {
+        invalidateAll();
+        await applyAction(result);
+        form = $page.form;
+      };
+    }}
+  >
     <div class="grid grid-rows-2">
       <div class="h-full w-full flex flex-col justify-end items-center pb-4">
         <input
