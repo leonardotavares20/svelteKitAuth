@@ -35,7 +35,7 @@ export const GET: ServerLoad = async ({ url, fetch }) => {
         credentials: 'same-origin',
       });
 
-      throw redirect(302, '/');
+      throw redirect(303, '/');
     }
 
     if (user) {
@@ -45,7 +45,7 @@ export const GET: ServerLoad = async ({ url, fetch }) => {
         credentials: 'same-origin',
       });
 
-      throw redirect(302, '/');
+      throw redirect(303, '/');
     }
   } catch (error) {
     fail(400, { message: 'Something went wrong' });
