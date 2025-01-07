@@ -31,7 +31,7 @@ export const actions: Actions = {
         });
       }
 
-      const userPassword = await bycrypt.compare(password, user.passwordHash);
+      const userPassword = await bycrypt.compare(password, user.passwordHash as string);
 
       if (!userPassword) {
         return fail(400, {
@@ -56,7 +56,6 @@ export const actions: Actions = {
     } catch (error) {
       if (error instanceof ZodError) {
         const { fieldErrors } = error.flatten();
-        console.log(fieldErrors);
 
         return {
           login: {

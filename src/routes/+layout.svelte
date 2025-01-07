@@ -1,9 +1,15 @@
 <script lang="ts">
+  import '../app.css';
   import { page } from '$app/stores';
   import { applyAction, enhance } from '$app/forms';
   import { invalidateAll } from '$app/navigation';
+  import { onMount } from 'svelte';
 
-  import '../app.css';
+  onMount(() => {
+    if ($page.url.pathname === '/') {
+      invalidateAll();
+    }
+  });
 </script>
 
 <svelte:head>
@@ -14,6 +20,7 @@
   {#if !$page.data.user}
     <a href="/login">Login</a>
     <a href="/registration">Register</a>
+    <a href="/google_redirect">Google Auth</a>
   {/if}
 
   {#if $page.data.user}

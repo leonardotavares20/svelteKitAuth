@@ -4,7 +4,10 @@ import { db } from './lib/database';
 export const handle: Handle = async ({ event, resolve }) => {
   const session = event.cookies.get('session');
 
+  console.log(session);
+
   if (!session) {
+    console.log('no session');
     return await resolve(event);
   }
 

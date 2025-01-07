@@ -49,6 +49,7 @@ export const actions: Actions = {
           passwordHash: await bycrypt.hash(password, 10),
           userAuthToken: crypto.randomUUID(),
           role: { connect: { id: role.id } },
+          loginProvider: 'application',
         },
       });
 
