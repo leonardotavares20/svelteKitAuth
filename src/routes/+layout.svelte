@@ -6,9 +6,7 @@
   import { onMount } from 'svelte';
 
   onMount(() => {
-    if ($page.url.pathname === '/') {
-      invalidateAll();
-    }
+    invalidateAll();
   });
 </script>
 

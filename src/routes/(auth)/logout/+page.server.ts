@@ -12,6 +12,11 @@ export const actions: Actions = {
       expires: new Date(0),
     });
 
+    cookies.set('access_token', '', {
+      path: '/',
+      expires: new Date(0),
+    });
+
     throw redirect(302, '/login');
   },
 };

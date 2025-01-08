@@ -1,5 +1,6 @@
 import { db } from '@/lib/database';
-import { redirect, fail, type ServerLoad } from '@sveltejs/kit';
+import { redirectTo } from '@/lib/helpers/globals/redirect_to';
+import { fail, type ServerLoad } from '@sveltejs/kit';
 import { getGoogleCredentials } from '@/lib/helpers/credentials/google_credentials';
 import { verifyGoogleToken } from '@/lib/helpers/tokens/google/verify_google_token';
 import { parseResponseGoogleToken, extractDataGoogleToken } from '@/lib/helpers/tokens/google/process_google_token';
@@ -7,24 +8,18 @@ import { parseResponseGoogleToken, extractDataGoogleToken } from '@/lib/helpers/
 export const GET: ServerLoad = async ({ url, fetch }) => {
   const credentials = getGoogleCredentials(url);
 
-  if (!credentials.code) {
-    fail(400, { message: 'Code not found' });
+  if (!credentials.code || !credentials.client_id || !credentials.redirect_uri) {
+    fail(400, { message: 'Credentials not found' });
 
-    throw redirect(303, '/login');
+    redirectTo(303, '/login');
   }
 
   try {
     const response = await verifyGoogleToken(credentials);
 
-    if (!response.ok) {
-      fail(400, { message: 'Failed to get token' });
-
-      throw redirect(303, '/login');
-    }
-
     const { data } = await parseResponseGoogleToken(response);
 
-    const { formData: extractedData, email } = extractDataGoogleToken(data);
+    const { formData: extractedData, email, access_token, expires_in } = extractDataGoogleToken(data);
 
     const user = await db.user.findUnique({ where: { email } });
 
@@ -34,27 +29,18 @@ export const GET: ServerLoad = async ({ url, fetch }) => {
         body: extractedData,
         credentials: 'same-origin',
       });
-
-      throw redirect(303, '/');
     }
 
     if (user) {
       await fetch('/google_login', {
         method: 'POST',
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, access_token, expires_in }),
         credentials: 'same-origin',
       });
-
-      throw redirect(303, '/');
     }
   } catch (error) {
-    fail(400, { message: 'Something went wrong' });
-
-    return new Response(null, {
-      status: 302,
-      headers: {
-        Location: '/',
-      },
-    });
+    fail(400, { message: 'Something went wrong, please try again' });
+  } finally {
+    redirectTo(303, '/admin');
   }
 };

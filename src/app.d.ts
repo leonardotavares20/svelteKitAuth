@@ -5,8 +5,22 @@ declare global {
     // interface Error {}
     interface Locals {
       user: {
+        id: string;
         name: string;
         role: string;
+        loginProvider: string;
+      };
+      calendar: {
+        kind: string;
+        etag: string;
+        summary: string;
+        description: string;
+        location: string;
+        colorId: string;
+        backgroundColor: string;
+        foregroundColor: string;
+        selected: boolean;
+        items: GoogleCalendarItem[];
       };
     }
     // interface PageData {}

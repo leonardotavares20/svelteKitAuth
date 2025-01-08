@@ -14,6 +14,7 @@ export const POST: ServerLoad = async ({ request, cookies }) => {
   const picture = data.get('picture');
   const accessToken = data.get('access_token');
   const refreshToken = data.get('refresh_token');
+  const expiresIn = data.get('expires_in');
 
   try {
     const role = await db.roles.findUnique({ where: { name: Roles.USER } });
@@ -42,6 +43,14 @@ export const POST: ServerLoad = async ({ request, cookies }) => {
       sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 24 * 30,
+    });
+
+    cookies.set('access_token', user.userAcessToken as string, {
+      path: '/',
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: Number(expiresIn),
     });
 
     redirect(303, '/');

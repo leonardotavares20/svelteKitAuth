@@ -11,7 +11,7 @@ export const extractDataGoogleToken = ({
   expires_in,
   id_token,
   refresh_token,
-}: ResponseGoogle): { email: string; formData: FormData } => {
+}: ResponseGoogle): { email: string; formData: FormData; access_token: string; expires_in: number } => {
   const decodedToken = jwtDecode(id_token);
 
   const { email, name, picture } = decodedToken as DecodedIdTokenGoogle;
@@ -29,5 +29,7 @@ export const extractDataGoogleToken = ({
   return {
     email: formData.get('email') as string,
     formData,
+    access_token,
+    expires_in,
   };
 };
