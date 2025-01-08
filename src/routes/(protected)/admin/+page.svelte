@@ -2,8 +2,6 @@
   import { page } from '$app/stores';
 
   const admin = $page.data.user.role === 'ADMIN';
-
-  console.log($page.data);
 </script>
 
 <h1 class="text-center text-7xl pb-8">Admin Page</h1>
